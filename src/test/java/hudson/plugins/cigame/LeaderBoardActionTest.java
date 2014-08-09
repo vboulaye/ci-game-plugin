@@ -1,16 +1,15 @@
 package hudson.plugins.cigame;
 
-import static org.mockito.Mockito.*;
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import hudson.model.User;
+import hudson.plugins.cigame.LeaderBoardAction.UserScore;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import hudson.model.User;
-import hudson.plugins.cigame.LeaderBoardAction.UserScore;
-
-import org.junit.Test;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.*;
 
 public class LeaderBoardActionTest {
 
@@ -41,7 +40,7 @@ public class LeaderBoardActionTest {
         when(userOne.getProperty(UserScoreProperty.class)).thenReturn(new UserScoreProperty(2.0, true, null));
         when(userTwo.getProperty(UserScoreProperty.class)).thenReturn(new UserScoreProperty(5.0, true, null));
         
-        List<UserScore> scores = new LeaderBoardAction().getUserScores(Arrays.asList(userOne, userTwo), false);
+        List<UserScore> scores = new LeaderBoardAction().getUserScores(Arrays.asList(userOne, userTwo), false, false);
         assertThat(scores.size(), is(1));
         assertThat(scores.get(0).getScore(), is(2d));
     }
@@ -55,7 +54,7 @@ public class LeaderBoardActionTest {
         when(userOne.getProperty(UserScoreProperty.class)).thenReturn(new UserScoreProperty(5.0, true, null));
         when(userTwo.getProperty(UserScoreProperty.class)).thenReturn(new UserScoreProperty(2.0, true, null));
         
-        List<UserScore> scores = new LeaderBoardAction().getUserScores(Arrays.asList(userOne, userTwo), true);
+        List<UserScore> scores = new LeaderBoardAction().getUserScores(Arrays.asList(userOne, userTwo), true, false);
         assertThat(scores.size(), is(2));
         assertThat(scores.get(0).getScore(), is(5d));
         assertThat(scores.get(1).getScore(), is(2d));
@@ -70,11 +69,44 @@ public class LeaderBoardActionTest {
         when(userOne.getProperty(UserScoreProperty.class)).thenReturn(new UserScoreProperty(1.0, true, null));
         when(userTwo.getProperty(UserScoreProperty.class)).thenReturn(new UserScoreProperty(2.0, true, null));
         
-        List<UserScore> scores = new LeaderBoardAction().getUserScores(Arrays.asList(userOne, userTwo), true);
+        List<UserScore> scores = new LeaderBoardAction().getUserScores(Arrays.asList(userOne, userTwo), true, false);
         assertThat(scores.size(), is(2));
         assertThat(scores.get(0).getScore(), is(2d));
         assertThat(scores.get(0).getUser().getId(), is("John"));
         assertThat(scores.get(1).getScore(), is(1d));
         assertThat(scores.get(1).getUser().getId(), is("Andy"));
     }
+
+
+
+    @Test
+    public void assertGroupedUserByFullNameIsShownAsOne() throws Exception {
+        User userOne = mock(User.class);
+        User userTwo = mock(User.class);
+        when(userOne.getFullName()).thenReturn("ID");
+        when(userTwo.getFullName()).thenReturn("ID");
+        when(userOne.getProperty(UserScoreProperty.class)).thenReturn(new UserScoreProperty(2.0, true, null));
+        when(userTwo.getProperty(UserScoreProperty.class)).thenReturn(new UserScoreProperty(5.0, true, null));
+
+        List<UserScore> scores = new LeaderBoardAction().getUserScores(Arrays.asList(userOne, userTwo), true, true);
+        assertThat(scores.size(), is(1));
+        assertThat(scores.get(0).getScore(), is(7d));
+    }
+
+
+    @Test
+    public void assertNotGroupedUserByFullNameIsShownAsTwo() throws Exception {
+        User userOne = mock(User.class);
+        User userTwo = mock(User.class);
+        when(userOne.getFullName()).thenReturn("ID");
+        when(userTwo.getFullName()).thenReturn("ID");
+        when(userOne.getProperty(UserScoreProperty.class)).thenReturn(new UserScoreProperty(2.0, true, null));
+        when(userTwo.getProperty(UserScoreProperty.class)).thenReturn(new UserScoreProperty(5.0, true, null));
+
+        List<UserScore> scores = new LeaderBoardAction().getUserScores(Arrays.asList(userOne, userTwo), true, false);
+        assertThat(scores.size(), is(2));
+        assertThat(scores.get(0).getScore(), is(5d));
+        assertThat(scores.get(1).getScore(), is(2d));
+    }
+
 }

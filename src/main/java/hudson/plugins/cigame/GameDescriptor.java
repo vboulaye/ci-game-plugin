@@ -28,7 +28,9 @@ public class GameDescriptor extends BuildStepDescriptor<Publisher> {
     
     private transient RuleBook rulebook;
     private boolean namesAreCaseSensitive = true;
-    
+    private boolean groupUserScoresByFullName = false;
+    private int daysWithoutBuildFilter = 0;
+
     private int passedTestIncreasingPoints = 1;
     private int passedTestDecreasingPoints = 0;
     private int failedTestIncreasingPoints = -1;
@@ -95,6 +97,22 @@ public class GameDescriptor extends BuildStepDescriptor<Publisher> {
 
     public void setNamesAreCaseSensitive(boolean namesAreCaseSensitive) {
         this.namesAreCaseSensitive = namesAreCaseSensitive;
+    }
+
+    public boolean getGroupUserScoresByFullName() {
+        return groupUserScoresByFullName;
+    }
+
+    public void setGroupUserScoresByFullName(boolean groupUserScoresByFullName) {
+        this.groupUserScoresByFullName = groupUserScoresByFullName;
+    }
+
+    public int getDaysWithoutBuildFilter() {
+        return daysWithoutBuildFilter;
+    }
+
+    public void setDaysWithoutBuildFilter(int daysWithoutBuildFilter) {
+        this.daysWithoutBuildFilter = daysWithoutBuildFilter;
     }
 
     @Override
