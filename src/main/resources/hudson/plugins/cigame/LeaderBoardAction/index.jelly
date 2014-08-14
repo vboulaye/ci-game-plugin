@@ -5,7 +5,7 @@
     <l:main-panel>
        	<h1>${%Leaderboard.title}</h1>
 		<div>
-        	<table class="pane sortable bigtable" style="width:50%">	
+        	<table class="pane sortable bigtable" style="width:50%" id="game.leaderboard">
         		<tr>
               <td class="pane-header" align="left,center">#</td>
                     <j:if test="${it.userAvatarSupported}"><td class="pane-header" align="left"/></j:if>

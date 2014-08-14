@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Leader board for users participaing in the game.
+ * Leader board for users participating in the game.
  * 
  * @author Erik Ramfelt
  */
@@ -38,6 +38,10 @@ import java.util.Set;
 public class LeaderBoardAction implements RootAction, AccessControlled {
 
     private static final long serialVersionUID = 1L;
+
+    public LeaderBoardAction() {
+        super();
+    }
 
     public String getDisplayName() {
         return Messages.Leaderboard_Title();
@@ -73,10 +77,10 @@ public class LeaderBoardAction implements RootAction, AccessControlled {
         return getUserScores(users, gameDescriptor.getNamesAreCaseSensitive(), gameDescriptor.getGroupUserScoresByFullName());
     }
 
-    protected Collection<User> getUserActiveInTheLastDays(int days) {
+     Collection<User> getUserActiveInTheLastDays(int days) {
         Set<User> recentUsers = new HashSet<User>();
         long now = System.currentTimeMillis();
-        long last = now - (24 * 60 * 60 * 1000) * days;
+        long last = now - (24 * 60 * 60 * 1000) * (long)days;
         List<AbstractProject> projects = getAllProjects();
         for (AbstractProject<?,?> p : projects) {
             for (AbstractBuild<?, ?> b : p.getBuilds().byTimestamp(last, now)) {
@@ -184,7 +188,7 @@ public class LeaderBoardAction implements RootAction, AccessControlled {
 
     
     @ExportedBean(defaultVisibility = 999)
-    public class UserScore {
+    public static class UserScore {
         private User user;
         private double score;
         private String description;

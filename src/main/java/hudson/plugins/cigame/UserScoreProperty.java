@@ -2,17 +2,18 @@ package hudson.plugins.cigame;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Objects;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import hudson.model.AbstractBuild;
+import hudson.model.Hudson;
+import hudson.model.User;
+import hudson.model.UserProperty;
 import hudson.plugins.cigame.model.ScoreHistoryEntry;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.export.Exported;
 import org.kohsuke.stapler.export.ExportedBean;
 
-import hudson.model.User;
-import hudson.model.UserProperty;
-
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -55,6 +56,29 @@ public class UserScoreProperty extends UserProperty {
     public double getScore() {
         return score;
     }
+
+
+    @Exported
+    public Collection<UserScoreProperty> getGroupedScores() {
+        Collection<UserScoreProperty> result = new ArrayList<UserScoreProperty>();
+        GameDescriptor gameDescriptor = Hudson.getInstance().getDescriptorByType(GameDescriptor.class);
+        if (gameDescriptor.getGroupUserScoresByFullName()) {
+            for (User otherUser : User.getAll()) {
+                if (!user.getId().equals(otherUser.getId())
+                        && user.getFullName().equals(otherUser.getFullName())
+                        ) {
+                    UserScoreProperty property = user.getProperty(UserScoreProperty.class);
+                    if (property!=null) {
+                        result.add(property);
+                    }
+                }
+            }
+        }
+
+
+        return result;
+    }
+
 
     public void setScore(double score) {
         this.score = score;
