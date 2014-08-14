@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<log>
+    <logentry revision="2">
+        <author>activeuser</author>
+        <date>2009-03-09T17:00:34.132765Z</date>
+        <paths>
+            <path action="A">/trunk/test.xml</path>
+        </paths>
+        <msg>add xml file</msg>
+    </logentry>
+</log>

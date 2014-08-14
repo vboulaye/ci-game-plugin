@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<user>
+  <fullName>mindless</fullName>
+  <properties>
+    <hudson.plugins.cigame.UserScoreProperty>
+      <score>1.0</score>
+      <isNotParticipatingInGame>false</isNotParticipatingInGame>
+    </hudson.plugins.cigame.UserScoreProperty>
+  </properties>
+</user>

@@ -1,0 +1,9 @@
+Started by user anonymous
+[workspace] $ cmd /c call C:\DOCUME~1\erikra\LOCALS~1\Temp\hudson59272.bat
+
+C:\Projects\hudson\trunk\hudson\plugins\ci-game\work\jobs\checkstyle-previous-failed\workspace>croak
+'croak' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Projects\hudson\trunk\hudson\plugins\ci-game\work\jobs\checkstyle-previous-failed\workspace>exit 9009 
+Finished: FAILURE
